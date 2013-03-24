@@ -1,6 +1,8 @@
 
 package ohtu.verkkokauppa;
 
+
+
 public class Tuote {
     private int id;
     private String nimi;
