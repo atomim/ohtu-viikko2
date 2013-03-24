@@ -2,7 +2,7 @@
 package ohtu.verkkokauppa;
 
 import java.util.ArrayList;
-
+import org.springframework.stereotype.Component;
 public class Kirjanpito implements IKirjanpito {
 
     private ArrayList<String> tapahtumat;
