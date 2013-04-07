@@ -11,5 +11,14 @@
     
     <context:annotation-config />
     <context:component-scan base-package="ohtu" />  
-    
+    <bean id="fileUserDao" class="ohtu.data_access.FileUserDao">
+        <constructor-arg type="java.lang.String" value="salasanat.txt" />
+    </bean>
+
+    <bean id="io" class="ohtu.io.ConsoleIO">
+    </bean>
+    <bean id="app" class="ohtu.App">
+        <constructor-arg type="io">
+        <constructor-arg type="ohtu.services.AuthenticationService">
+    </bean>
 </beans>

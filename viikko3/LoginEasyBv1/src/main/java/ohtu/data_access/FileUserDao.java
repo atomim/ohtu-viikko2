@@ -3,15 +3,21 @@ package ohtu.data_access;
 import ohtu.domain.User;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.stereotype.Component;
-
-public class InMemoryUserDao implements UserDao {
+import java.util.Scanner;
+import java.io.File;
+//import org.springframework.stereotype.Component;
+public class FileUserDao implements UserDao {
 
     private List<User> users;
-
-    public InMemoryUserDao() {
+    //@Component
+    public FileUserDao(String file) {
         users = new ArrayList<User>();
-        users.add(new User("pekka", "akkep"));
+	try{
+           Scanner fileScanner = new Scanner(new File(file));
+           while (fileScanner.hasNextLine()) {
+               users.add(new User(fileScanner.nextLine(),fileScanner.nextLine()));
+	   }
+	}catch(Exception e){}
     }        
 
     @Override
