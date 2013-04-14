@@ -6,6 +6,7 @@ import java.util.Scanner;
 import javax.persistence.OptimisticLockException;
 import olutopas.model.Beer;
 import olutopas.model.Brewery;
+import olutopas.model.Rating;
 import olutopas.model.User;
 
 public class Application {
@@ -44,7 +45,7 @@ public class Application {
             } else if (command.equals("1")) {
                 findBrewery();
             } else if (command.equals("2")) {
-                findBeer();
+                findBeer(currentUser);
             } else if (command.equals("3")) {
                 addBeer();
             } else if (command.equals("4")) {
@@ -104,7 +105,7 @@ public class Application {
         server.save(new Brewery("Paulaner"));
     }
 
-    private void findBeer() {
+    private void findBeer(User currentUser) {
         System.out.print("beer to find: ");
         String n = scanner.nextLine();
         Beer foundBeer = server.find(Beer.class).where().like("name", n).findUnique();
@@ -114,8 +115,23 @@ public class Application {
             return;
         }
 
-        System.out.println("found: " + foundBeer);
+        System.out.println(foundBeer.toString());
+        while (true) {
+            System.out.println("give rating (leave emtpy if not): ");
+            String rating = scanner.nextLine();
+            if (rating.equals("")) {
+                return;
+            }
+            try {
+                int points = Integer.parseInt(rating);
+                Rating r = new Rating(foundBeer, currentUser, points);
+                server.save(r);
+                return;
+            } catch (Exception e) {
+            }
+        }
     }
+
 
     private void findBrewery() {
         System.out.print("brewery to find: ");
