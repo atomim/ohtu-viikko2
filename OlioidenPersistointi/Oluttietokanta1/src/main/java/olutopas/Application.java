@@ -6,6 +6,7 @@ import java.util.Scanner;
 import javax.persistence.OptimisticLockException;
 import olutopas.model.Beer;
 import olutopas.model.Brewery;
+import olutopas.model.User;
 
 public class Application {
 
@@ -21,7 +22,17 @@ public class Application {
             seedDatabase();
         }
 
-        System.out.println("Welcome!");
+        User currentUser;
+
+        while (true) {
+            currentUser = login();
+            if (currentUser != null) {
+                break;
+            }
+        }
+
+        System.out.println("Welcome! " + currentUser);
+
 
         while (true) {
             menu();
@@ -40,6 +51,12 @@ public class Application {
                 listBreweries();
             } else if (command.equals("5")) {
                 deleteBeer();
+            } else if (command.equals("6")) {
+                listBeers();
+            } else if (command.equals("7")) {
+                addBrewery();
+            } else if (command.equals("8")) {
+                deleteBrewery();
             } else {
                 System.out.println("unknown command");
             }
@@ -58,6 +75,9 @@ public class Application {
         System.out.println("3   add beer");
         System.out.println("4   list breweries");
         System.out.println("5   delete beer");
+        System.out.println("6   list beers");
+        System.out.println("7   add brewery");
+        System.out.println("8   delete brewery");
         System.out.println("0   quit");
         System.out.println("");
     }
@@ -74,13 +94,13 @@ public class Application {
         // luodaan olut ilman panimon asettamista
         Beer b = new Beer("Märzen");
         server.save(b);
-        
+
         // jotta saamme panimon asetettua, tulee olot lukea uudelleen kannasta
-        b = server.find(Beer.class, b.getId());        
-        brewery = server.find(Brewery.class, brewery.getId());        
+        b = server.find(Beer.class, b.getId());
+        brewery = server.find(Brewery.class, brewery.getId());
         brewery.addBeer(b);
         server.save(brewery);
-        
+
         server.save(new Brewery("Paulaner"));
     }
 
@@ -158,5 +178,77 @@ public class Application {
         server.delete(beerToDelete);
         System.out.println("deleted: " + beerToDelete);
 
+    }
+
+    private void listBeers() {
+        List<Beer> beers = server.find(Beer.class).findList();
+        for (Beer beer : beers) {
+            System.out.println(beer);
+        }
+    }
+
+    private void addBrewery() {
+        System.out.print("brewery to add: ");
+
+        String name = scanner.nextLine();
+
+        Brewery exists = server.find(Brewery.class).where().like("name", name).findUnique();
+        if (exists != null) {
+            System.out.println(name + " exists already");
+            return;
+        }
+
+        Brewery brewery = new Brewery(name);
+        server.save(brewery);
+        System.out.println(name + " added");
+    }
+
+    private void deleteBrewery() {
+        System.out.print("brewery to delete: ");
+
+        String name = scanner.nextLine();
+
+        Brewery breweryToDelete = server.find(Brewery.class).where().like("name", name).findUnique();
+        if (breweryToDelete == null) {
+            System.out.println(name + " doesnt exist");
+            return;
+        }
+
+        server.delete(breweryToDelete);
+        System.out.println(name + " deleted");
+    }
+
+    private void register() {
+        System.out.println("Register a new user");
+        System.out.println("give username: ");
+        String username = scanner.nextLine();
+
+        User exists = server.find(User.class).where().like("username", username).findUnique();
+        if (exists != null) {
+            System.out.println(username + " exists already");
+            return;
+        }
+        User newUser = new User();
+        newUser.setUsername(username);
+        server.save(newUser);
+    }
+
+    private User login() {
+        System.out.println("Login (give ? to register a new user)");
+        System.out.println("username: ");
+        String username = scanner.nextLine();
+
+        if (username.equals("?")) {
+            register();
+            return null;
+        }
+        User userToLogIn = server.find(User.class).where().like("username", username).findUnique();
+        if (userToLogIn == null) {
+            System.out.println(username + " doesn't exist");
+            return null;
+        }
+
+
+        return userToLogIn;
     }
 }
