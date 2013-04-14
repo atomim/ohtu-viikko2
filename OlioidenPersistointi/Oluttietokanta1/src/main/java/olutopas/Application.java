@@ -67,6 +67,8 @@ public class Application {
                 addBeerToPub();
             } else if (command.equals("12")) {
                 addPub();
+            } else if (command.equals("13")) {
+                removeBeerFromPub();
             } else if (command.equals("t")) {
                 showRatings(currentUser);
             } else if (command.equals("y")) {
@@ -96,6 +98,7 @@ public class Application {
         System.out.println("10  list pubs");
         System.out.println("11  add beer to pub");
         System.out.println("12  add pub");
+        System.out.println("13  remove beer from pub");
         System.out.println("t   show my ratings");
         System.out.println("y   list users");
         System.out.println("0   quit");
@@ -328,6 +331,19 @@ public class Application {
         Pub pub = server.find(Pub.class).where().like("name", name).findUnique();
 
         pub.getBeers().add(beer);
+        server.save(pub);
+    }
+
+    private void removeBeerFromPub() {
+        System.out.print("beer: ");
+        String name = scanner.nextLine();
+        Beer beer = server.find(Beer.class).where().like("name", name).findUnique();
+
+        System.out.print("pub: ");
+        name = scanner.nextLine();
+        Pub pub = server.find(Pub.class).where().like("name", name).findUnique();
+
+        pub.getBeers().remove(beer);
         server.save(pub);
     }
 
