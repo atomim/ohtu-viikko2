@@ -10,6 +10,8 @@ import javax.persistence.OneToMany;
 public class User {
 
     private String name;
+    @OneToMany
+    List<Rating> ratings;
 
     public User() {
     }
@@ -17,10 +19,9 @@ public class User {
     public User(String name) {
         this.name = name;
     }
-    
     @Id
     private Integer id;
-    
+
     public String getName() {
         return name;
     }
@@ -36,5 +37,19 @@ public class User {
     public void setId(Integer id) {
         this.id = id;
     }
+
+    public List<Rating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(List<Rating> ratings) {
+        this.ratings = ratings;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
+    
     
 }
