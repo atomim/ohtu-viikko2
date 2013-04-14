@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -19,6 +20,9 @@ public class Beer {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Rating> ratings;
 
+    @ManyToMany(mappedBy = "beers", cascade = CascadeType.ALL)
+    private List<Pub> pubs;
+    
     public Beer() {
     }
 
@@ -82,6 +86,15 @@ public class Beer {
         this.ratings = ratings;
     }
 
+    public List<Pub> getPubs() {
+        return pubs;
+    }
+
+    public void setPubs(List<Pub> pubs) {
+        this.pubs = pubs;
+    }
+
+    
     private static double ratingsAvg(List<Rating> ratings) {
         int sum = 0;
         for (Rating rating : ratings) {

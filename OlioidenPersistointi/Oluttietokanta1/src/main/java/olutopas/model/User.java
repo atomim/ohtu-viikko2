@@ -4,8 +4,10 @@
  */
 package olutopas.model;
 
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -16,6 +18,9 @@ public class User {
     
     @Id
     Integer id;
+    
+    @OneToMany
+    List<Rating> ratings;
     
     private String username;
     
@@ -38,6 +43,16 @@ public class User {
         this.username = username;
     }
     
-    
+    public List<Rating> getRatings(){
+        return ratings;
+    }
+    public void setRatings(List<Rating> ratings){
+        this.ratings =ratings;
+    }
+
+    @Override
+    public String toString() {
+        return username;
+    }
     
 }
