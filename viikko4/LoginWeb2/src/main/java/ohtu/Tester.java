@@ -77,11 +77,11 @@ public class Tester {
         
         System.out.println( driver.getPageSource() );
         element = driver.findElement(By.name("username"));
-        element.sendKeys("pekka2");
+        element.sendKeys("pekkapekka2");
         element = driver.findElement(By.name("password"));
-        element.sendKeys("akkep2");
+        element.sendKeys("akkepakkep2");
         element = driver.findElement(By.name("passwordConfirmation"));
-        element.sendKeys("akkep2");
+        element.sendKeys("akkepakkep2");
         element = driver.findElement(By.name("add"));
         element.submit();
         
