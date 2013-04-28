@@ -17,4 +17,10 @@ public class IntJoukkuYksiparametrisellaKonstruktorillaTest extends IntJoukkoTes
     }
     
     // perii kaikki testit luokasta IntJoukkoTest
+
+    @Test(expected=IllegalArgumentException.class)
+    public void liianPieniKapasiteettiEitoimi(){
+
+    	joukko = new IntJoukko(-1);
+    }
 }

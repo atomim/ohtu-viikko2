@@ -13,4 +13,21 @@ public class IntJoukkoKaksiparametrisellaKonstruktorillaTest extends IntJoukkoTe
         joukko.lisaa(10);
         joukko.lisaa(3);
     }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void liianPieniKapasiteettiEitoimi(){
+
+    	joukko = new IntJoukko(-1);
+    }
+    @Test(expected=IllegalArgumentException.class)
+    public void liianPieniKasvatusEiToimi(){
+
+    	joukko = new IntJoukko(5,0);
+    }
+
+    @Test
+    public void koonRajatapaus(){
+        joukko = new IntJoukko(0,1);
+        joukko.lisaa(1);
+    }
 }

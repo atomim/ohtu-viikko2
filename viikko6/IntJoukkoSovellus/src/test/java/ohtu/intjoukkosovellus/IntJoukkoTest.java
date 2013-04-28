@@ -73,5 +73,18 @@ public class IntJoukkoTest {
     @Test
     public void toStringToimii(){
         assertEquals("{10, 3}", joukko.toString());
+        joukko.poista(3);
+        assertEquals("{10}", joukko.toString());
+        joukko.poista(10);
+        assertEquals("{}", joukko.toString());
+    }
+
+    @Test
+    public void kopiokonstruktoriToimii(){
+        int[] odotettu = {3, 10};
+        IntJoukko j2 = new IntJoukko(joukko);
+        int[] vastaus = j2.toIntArray();
+        Arrays.sort(vastaus);
+        assertArrayEquals(odotettu, vastaus);
     }
 }
